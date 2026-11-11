@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>רשימת נוכחות - תלמוד תורה</title>
+<meta name="theme-color" content="#4f46e5">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="נוכחות">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="hero">
+  <div class="hero-inner">
+    <div class="hero-top">
+      <div class="brand">
+        <div class="logo">ת</div>
+        <div>
+          <h1>תלמוד תורה</h1>
+          <p>רשימת נוכחות</p>
+        </div>
+      </div>
+      <button class="ghost hidden" id="installBtn">התקן כאפליקציה</button>
+    </div>
+    <div class="hero-date">
+      <span class="heb" id="hebDate"></span>
+      <span class="greg" id="gregDate"></span>
+    </div>
+    <nav class="tabs">
+      <button class="tab active" data-view="attendance">נוכחות</button>
+      <button class="tab" data-view="report">דוח תאריכים</button>
+      <button class="tab" data-view="stats">סטטיסטיקה</button>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+  <section class="view active" id="view-attendance">
+    <div class="grid-2">
+      <div class="card">
+        <h2 class="card-title">תאריך</h2>
+        <div class="row">
+          <input type="date" id="dateInput">
+          <button class="secondary" id="todayBtn">היום</button>
+        </div>
+        <select id="historySelect" class="full"></select>
+      </div>
+      <div class="card stats-card">
+        <div class="stat-ring" id="statRing"><span id="statPct">0%</span></div>
+        <div class="stat-text">
+          <div class="big" id="summary"></div>
+          <div class="small" id="absentSummary"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <h2 class="card-title">תלמידים</h2>
+        <div class="row">
+          <button class="chip" id="markAllBtn">✓ סמן את כולם</button>
+          <button class="chip muted" id="clearAllBtn">נקה הכול</button>
+        </div>
+      </div>
+      <input type="search" id="searchInput" class="search" placeholder="חיפוש תלמיד...">
+      <div class="students" id="studentList"></div>
+    </div>
+
+    <div class="card">
+      <h2 class="card-title">נושא השיעור / הערה</h2>
+      <textarea id="noteInput" rows="2" placeholder="לדוגמה: פרשת השבוע, משנה פרק ב׳..."></textarea>
+      <div class="hint">נשמר לתאריך שנבחר ויצורף למייל</div>
+    </div>
+
+    <div class="card">
+      <h2 class="card-title">הוספת תלמיד</h2>
+      <div class="row">
+        <input type="text" id="studentName" placeholder="שם התלמיד">
+        <button id="addStudentBtn">+ הוסף</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="view" id="view-report">
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <h2 class="card-title">נוכחות לפי תאריכים</h2>
+          <div class="hint" id="reportMeta"></div>
+        </div>
+        <button class="secondary" id="exportBtn">ייצוא לאקסל (CSV)</button>
+      </div>
+      <div class="table-wrap" id="reportTable"></div>
+      <div class="hint">לחיצה על תאריך פותחת אותו לעריכה · נקודה כתומה = יש הערה לשיעור</div>
+    </div>
+  </section>
+
+  <section class="view" id="view-stats">
+    <div class="kpis">
+      <div class="kpi"><div class="kpi-val" id="kpiLessons">0</div><div class="kpi-label">שיעורים</div></div>
+      <div class="kpi"><div class="kpi-val" id="kpiAvg">0%</div><div class="kpi-label">נוכחות ממוצעת</div></div>
+      <div class="kpi"><div class="kpi-val" id="kpiStudents">0</div><div class="kpi-label">תלמידים</div></div>
+    </div>
+    <div class="card">
+      <h2 class="card-title">נוכחות לפי תלמיד</h2>
+      <div id="statsList"></div>
+    </div>
+  </section>
+</main>
+
+<footer class="send-bar" id="sendBar">
+  <div class="send-bar-inner">
+    <button class="send" id="sendBtn">שלח רשימת נוכחות במייל</button>
+    <div class="email-info" id="emailInfo"></div>
+  </div>
+</footer>
+
+<dialog id="dialog">
+  <form method="dialog">
+    <h3 id="dlgTitle"></h3>
+    <p id="dlgMsg"></p>
+    <input id="dlgInput" autocomplete="off">
+    <div class="dlg-actions">
+      <button value="ok" id="dlgOk">אישור</button>
+      <button value="cancel" class="secondary" formnovalidate>ביטול</button>
+    </div>
+  </form>
+</dialog>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
